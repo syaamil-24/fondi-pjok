@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PJOK Bulutangkis - Media Pembelajaran Interaktif</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,600;0,700;1,700&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sport: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            500: '#ff6b00',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        },
+                        electric: {
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Chakra Petch', 'sans-serif'],
+                        body: ['Rubik', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #F8FAFC;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Chakra Petch', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .pulse-gentle {
+            animation: pulseGentle 2s ease-in-out infinite;
+        }
+        @keyframes pulseGentle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+        .shuttle-float {
+            animation: shuttleFloat 3s ease-in-out infinite;
+        }
+        @keyframes shuttleFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(8deg); }
+        }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col min-h-screen">
+
+    <!-- NAVIGATION HEADER -->
+    <header class="sticky top-0 z-50 bg-slate-900 text-white shadow-xl border-b-4 border-sport-500">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#hero" class="flex items-center gap-3 group">
+                <div class="bg-sport-500 text-white p-2 rounded-2xl font-bold text-xl w-10 h-10 flex items-center justify-center shadow-lg transform group-hover:rotate-12 transition">
+                    <i class="fa-solid fa-table-tennis-paddle-ball"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-black tracking-wider leading-tight font-heading text-white">
+                        PJOK <span class="text-sport-500">BULUTANGKIS</span>
+                    </h1>
+                    <p class="text-xs text-slate-300 font-semibold hidden sm:block">
+                        Fondi Zufar Saviola | NPM: 41182191240031
+                    </p>
+                </div>
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-2 font-heading font-semibold text-sm">
+                <a href="#pengenalan" class="px-3 py-1.5 rounded-xl hover:bg-slate-800 transition">Pengenalan</a>
+                <a href="#ai-simulator" class="px-3 py-1.5 rounded-xl hover:bg-slate-800 transition text-yellow-400 font-bold"><i class="fa-solid fa-bolt"></i> Simulasi Visual</a>
+                <a href="#teknik" class="px-3 py-1.5 rounded-xl hover:bg-slate-800 transition">Teknik Dasar</a>
+                <a href="#kuis" class="px-3 py-1.5 bg-sport-500 text-white font-bold rounded-xl hover:bg-sport-600 transition shadow-md">Kuis Interaktif</a>
+                <a href="#pembuat" class="px-3 py-1.5 rounded-xl hover:bg-slate-800 transition text-electric-500">Profil Pembuat</a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-btn" class="md:hidden text-white text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-950 px-4 pt-2 pb-4 space-y-2 font-heading border-t border-slate-800">
+            <a href="#pengenalan" class="block py-2 px-3 hover:bg-slate-800 rounded-xl text-white">Pengenalan</a>
+            <a href="#ai-simulator" class="block py-2 px-3 hover:bg-slate-800 rounded-xl text-yellow-400 font-bold">Simulasi Visual AI</a>
+            <a href="#teknik" class="block py-2 px-3 hover:bg-slate-800 rounded-xl text-white">Teknik Dasar</a>
+            <a href="#kuis" class="block py-2 px-3 bg-sport-500 text-white font-bold rounded-xl">Kuis Interaktif</a>
+            <a href="#pembuat" class="block py-2 px-3 hover:bg-slate-800 rounded-xl text-electric-500">Profil Pembuat</a>
+        </div>
+    </header>
+
+    <!-- HERO BANNER -->
+    <section id="hero" class="bg-gradient-to-br from-slate-950 via-slate-900 to-electric-700 text-white py-12 md:py-16 px-4 relative overflow-hidden">
+        <!-- Background Sport Decorative Grid -->
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#FF6B00_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+            <div class="text-center md:text-left md:w-3/5 space-y-4">
+                <span class="bg-sport-500 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest inline-block shadow-md">
+                    ⚡ Media Pembelajaran PJOK Interaktif
+                </span>
+                <h2 class="text-3xl md:text-5xl font-black leading-none font-heading tracking-tight">
+                    KUASAI TEKNIK DASAR <br/><span class="text-sport-500">BULUTANGKIS!</span>
+                </h2>
+                <p class="text-slate-300 text-base md:text-lg font-medium leading-relaxed">
+                    Pelajari cara pegangan raket (Grip), Servis, Pukulan Lob, hingga Smash menukik dengan simulasi gerakan 2D dan audio pembaca materi interaktif.
+                </p>
+                <div class="flex flex-wrap justify-center md:justify-start gap-3 pt-2">
+                    <a href="#ai-simulator" class="bg-sport-500 text-white px-6 py-3 rounded-2xl font-bold text-base hover:bg-sport-600 transform hover:-translate-y-1 transition shadow-lg flex items-center gap-2 font-heading">
+                        <i class="fa-solid fa-play"></i> Mulai Simulasi
+                    </a>
+                    <a href="#kuis" class="bg-white/10 hover:bg-white/20 border-2 border-white/30 text-white px-6 py-3 rounded-2xl font-bold text-base transform hover:-translate-y-1 transition shadow-md flex items-center gap-2 font-heading">
+                        <i class="fa-solid fa-gamepad"></i> Uji Kuis
+                    </a>
+                </div>
+                <div class="pt-4 border-t border-slate-700/60 text-xs text-slate-300">
+                    <p>Dikembangkan oleh: <span class="text-sport-500 font-bold">Fondi Zufar Saviola</span> | NPM: <span class="text-yellow-400 font-bold">41182191240031</span></p>
+                    <p class="text-slate-400 font-medium">Institusi: <span class="text-white font-semibold">Universitas Muhammadiyah Indonesia</span></p>
+                </div>
+            </div>
+            
+            <!-- Graphic Hero Shuttlecock Interactive -->
+            <div class="md:w-2/5 flex justify-center">
+                <div class="relative w-64 h-64 md:w-80 md:h-80 bg-slate-900/80 rounded-3xl flex items-center justify-center p-6 backdrop-blur-md border-4 border-sport-500 shadow-2xl group cursor-pointer" onclick="spinShuttlecock()">
+                    <svg id="hero-shuttle-svg" viewBox="0 0 200 200" class="w-full h-full shuttle-float transition-transform duration-700">
+                        <!-- Shuttlecock Feather SVG -->
+                        <polygon points="100,20 70,120 130,120" fill="none" stroke="#FFFFFF" stroke-width="4"/>
+                        <!-- Feather Lines -->
+                        <line x1="100" y1="20" x2="80" y2="120" stroke="#0284C7" stroke-width="2"/>
+                        <line x1="100" y1="20" x2="120" y2="120" stroke="#0284C7" stroke-width="2"/>
+                        <line x1="100" y1="20" x2="100" y2="120" stroke="#FF6B00" stroke-width="3"/>
+                        
+                        <!-- Feather Rib Band -->
+                        <path d="M 75 80 Q 100 95 125 80" fill="none" stroke="#FFFFFF" stroke-width="4"/>
+                        <path d="M 72 105 Q 100 120 128 105" fill="none" stroke="#FFFFFF" stroke-width="4"/>
+                        
+                        <!-- Cork Base -->
+                        <path d="M 75 120 C 75 160 125 160 125 120 Z" fill="#FF6B00" stroke="#FFFFFF" stroke-width="4"/>
+                        <ellipse cx="100" cy="120" rx="25" ry="6" fill="#CC5500"/>
+                    </svg>
+                    <div class="absolute bottom-3 bg-yellow-400 text-slate-950 text-xs font-black px-3.5 py-1 rounded-full shadow border border-yellow-500 font-heading">
+                        Sentuh Kok Badminton 🏸
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-5xl mx-auto px-4 py-10 space-y-14 flex-grow">
+
+        <!-- 1. PENGENALAN BULUTANGKIS -->
+        <section id="pengenalan" class="bg-white rounded-3xl p-6 md:p-8 shadow-md border-2 border-slate-200">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="bg-sport-100 text-sport-600 p-3 rounded-2xl text-2xl font-bold">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-slate-900 font-heading">Apa Itu Permainan Bulutangkis?</h2>
+                        <p class="text-sm text-slate-500">Mengenal olahraga raket cepat nomor satu (Badminton)</p>
+                    </div>
+                </div>
+                <button onclick="speakText('Bulutangkis atau badminton adalah olahraga raket yang dimainkan oleh dua pemain tunggal atau dua pasangan ganda yang saling berlawanan. Pemain memukul shuttlecock menyeberangi net untuk mengumpulkan poin.')" class="bg-sport-50 hover:bg-sport-100 text-sport-600 font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-volume-high"></i> Suara Narasi
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6">
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200">
+                    <div class="text-sport-500 text-3xl mb-2"><i class="fa-solid fa-user-group font-bold"></i></div>
+                    <h3 class="font-heading text-lg font-bold text-slate-900 mb-1">Kategori Main</h3>
+                    <p class="text-sm text-slate-600">Dimainkan dalam nomor Tunggal (Putra/Putri), Ganda (Putra/Putri), dan Ganda Campuran.</p>
+                </div>
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200">
+                    <div class="text-electric-500 text-3xl mb-2"><i class="fa-solid fa-trophy font-bold"></i></div>
+                    <h3 class="font-heading text-lg font-bold text-slate-900 mb-1">Sistem Poin (Rally)</h3>
+                    <p class="text-sm text-slate-600">Menggunakan sistem Rally Point 21 angka. Pemenang menentukan game terbanyak (Best of 3).</p>
+                </div>
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200">
+                    <div class="text-sport-500 text-3xl mb-2"><i class="fa-solid fa-feather-pointed font-bold"></i></div>
+                    <h3 class="font-heading text-lg font-bold text-slate-900 mb-1">Peralatan Utama</h3>
+                    <p class="text-sm text-slate-600">Menggunakan Raket khusus yang ringan, Shuttlecock (kok bulu), dan Lapangan ber-net tinggi 1.55 meter.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. SIMULATOR VISUAL 2D CANVAST BULUTANGKIS -->
+        <section id="ai-simulator" class="bg-slate-900 text-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-sport-500 relative">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div>
+                    <span class="bg-sport-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1 font-heading">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Visual Canvas Player
+                    </span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1 font-heading">Simulasi Gerakan Pukulan Badminton</h2>
+                    <p class="text-slate-300 text-sm">Pilih jenis teknik di bawah untuk memutar lintasan gerakan shuttlecock & posisi pemain secara dinamis.</p>
+                </div>
+
+                <!-- Motion Selector Buttons -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="setBadmintonMotion('servis')" id="btn-motion-servis" class="motion-tab-btn bg-sport-500 text-white font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1 shadow font-heading">
+                        🏸 Servis
+                    </button>
+                    <button onclick="setBadmintonMotion('lob')" id="btn-motion-lob" class="motion-tab-btn bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1 font-heading">
+                        🏹 Pukulan Lob
+                    </button>
+                    <button onclick="setBadmintonMotion('dropshot')" id="btn-motion-dropshot" class="motion-tab-btn bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1 font-heading">
+                        🎯 Drop Shot
+                    </button>
+                    <button onclick="setBadmintonMotion('smash')" id="btn-motion-smash" class="motion-tab-btn bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1 font-heading">
+                        💥 Smash Menukik
+                    </button>
+                </div>
+            </div>
+
+            <!-- Canvas Field Viewport -->
+            <div class="relative bg-gradient-to-b from-slate-950 via-electric-700 to-slate-950 rounded-2xl overflow-hidden border-4 border-slate-700 shadow-inner h-72 md:h-80 flex items-center justify-center">
+                <canvas id="badmintonCanvas" class="w-full h-full"></canvas>
+
+                <!-- Floating Info bar -->
+                <div class="absolute bottom-4 left-4 right-4 flex justify-between items-center bg-slate-950/85 backdrop-blur-md px-4 py-2.5 rounded-xl text-white text-xs border border-white/10">
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleBadmintonAnim()" id="anim-play-btn" class="bg-yellow-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg hover:bg-yellow-300 flex items-center gap-1 font-heading">
+                            <i class="fa-solid fa-pause"></i> Pause
+                        </button>
+                        <span id="motion-title" class="font-bold text-sport-500 text-sm font-heading">Teknik Servis Pendek & Panjang</span>
+                    </div>
+                    <span id="motion-desc" class="hidden sm:inline text-slate-200">Pukulan sajian awal permainan melintasi net secara melambung atau tipis.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. MATERI TEKNIK DASAR -->
+        <section id="teknik" class="space-y-6">
+            <div class="text-center max-w-2xl mx-auto">
+                <span class="bg-sport-100 text-sport-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider font-heading">Modul Utama Pembelajaran</span>
+                <h2 class="text-3xl font-black text-slate-900 mt-2 font-heading">4 TEKNIK DASAR BULUTANGKIS</h2>
+                <p class="text-slate-600 text-sm mt-1">Tekan tombol suara di setiap modul untuk mendengar narasi materi!</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- 1. GRIP (PEGANGAN RAKET) -->
+                <div class="bg-white rounded-3xl p-6 shadow-md hover:shadow-lg border-2 border-slate-200 flex flex-col justify-between transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-sport-500 text-white font-bold px-3 py-1 rounded-xl text-xs font-heading">Teknik 1</span>
+                            <button onclick="speakText('Teknik Pegangan Raket atau Grip. Terbagi menjadi Forehand Grip seperti berjabat tangan dan Backhand Grip dengan ibu jari menekan gagang raket.')" class="p-2 bg-sport-50 text-sport-600 hover:bg-sport-100 rounded-lg text-xs font-bold transition">
+                                <i class="fa-solid fa-volume-high"></i> Suara
+                            </button>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-2 font-heading">1. Pegangan Raket (Grip)</h3>
+                        <p class="text-slate-600 text-sm mb-4">Fondasi utama memegang raket secara benar agar pukulan bertenaga dan akurat.</p>
+
+                        <!-- SVG Illustration Grip -->
+                        <div class="bg-slate-100 rounded-2xl p-4 flex items-center justify-center mb-4">
+                            <svg viewBox="0 0 160 100" class="w-36 h-24">
+                                <!-- Racket Handle & Frame -->
+                                <rect x="30" y="45" width="50" height="10" rx="3" fill="#334155"/>
+                                <line x1="80" y1="50" x2="110" y2="50" stroke="#94A3B8" stroke-width="4"/>
+                                <ellipse cx="130" cy="50" rx="20" ry="25" fill="none" stroke="#FF6B00" stroke-width="3"/>
+                                <!-- Grid Net Lines inside Racket -->
+                                <line x1="130" y1="25" x2="130" y2="75" stroke="#0284C7" stroke-width="1"/>
+                                <line x1="110" y1="50" x2="150" y2="50" stroke="#0284C7" stroke-width="1"/>
+                                <!-- Hand Holding -->
+                                <path d="M 40 30 C 40 45 45 55 55 55 L 70 55 C 75 45 65 35 55 35 Z" fill="#FF6B00"/>
+                            </svg>
+                        </div>
+
+                        <ul class="space-y-1.5 text-xs text-slate-700 font-medium">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sport-500"></i> <strong>Forehand Grip:</strong> Memegang raket seperti posisi berjabat tangan.</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sport-500"></i> <strong>Backhand Grip:</strong> Ibu jari menekan bagian pipih gagang raket.</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sport-500"></i> Jari-jari rileks dan tidak menggenggam terlalu kaku.</li>
+                        </ul>
+                    </div>
+                    <button onclick="openModal('grip')" class="mt-5 w-full bg-slate-100 hover:bg-sport-500 hover:text-white text-slate-800 font-bold py-2.5 rounded-xl transition text-xs flex items-center justify-center gap-2 font-heading">
+                        <i class="fa-solid fa-list-check"></i> Detail Langkah-Langkah
+                    </button>
+                </div>
+
+                <!-- 2. SERVIS -->
+                <div class="bg-white rounded-3xl p-6 shadow-md hover:shadow-lg border-2 border-slate-200 flex flex-col justify-between transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-sport-500 text-white font-bold px-3 py-1 rounded-xl text-xs font-heading">Teknik 2</span>
+                            <button onclick="speakText('Teknik Servis. Pukulan pertama untuk memulai permainan. Servis pendek tipis di atas net, sedangkan servis panjang melambung jauh ke belakang lawan.')" class="p-2 bg-sport-50 text-sport-600 hover:bg-sport-100 rounded-lg text-xs font-bold transition">
+                                <i class="fa-solid fa-volume-high"></i> Suara
+                            </button>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-2 font-heading">2. Servis (Service)</h3>
+                        <p class="text-slate-600 text-sm mb-4">Sajian awal melintasi net untuk memulai setiap rali pertandingan.</p>
+
+                        <!-- SVG Illustration Servis -->
+                        <div class="bg-slate-100 rounded-2xl p-4 flex items-center justify-center mb-4">
+                            <svg viewBox="0 0 160 100" class="w-36 h-24">
+                                <!-- Net -->
+                                <line x1="80" y1="40" x2="80" y2="90" stroke="#0F172A" stroke-width="3"/>
+                                <!-- Player -->
+                                <circle cx="35" cy="40" r="8" fill="#0284C7"/>
+                                <line x1="35" y1="48" x2="35" y2="75" stroke="#0284C7" stroke-width="3"/>
+                                <!-- Trajectory Curve -->
+                                <path d="M 38 55 Q 80 30 135 60" fill="none" stroke="#FF6B00" stroke-width="3" stroke-dasharray="3 3"/>
+                                <!-- Shuttlecock -->
+                                <circle cx="120" cy="52" r="5" fill="#FF6B00"/>
+                            </svg>
+                        </div>
+
+                        <ul class="space-y-1.5 text-xs text-slate-700 font-medium">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sport-500"></i> <strong>Servis Pendek:</strong> Shuttlecock melintas tipis di atas net.</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sport-500"></i> <strong>Servis Panjang:</strong> Shuttlecock melambung tinggi ke belakang area lawan.</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sport-500"></i> Posisi kontak kok berada di bawah pinggang sesuai aturan.</li>
+                        </ul>
+                    </div>
+                    <button onclick="openModal('servis')" class="mt-5 w-full bg-slate-100 hover:bg-sport-500 hover:text-white text-slate-800 font-bold py-2.5 rounded-xl transition text-xs flex items-center justify-center gap-2 font-heading">
+                        <i class="fa-solid fa-list-check"></i> Detail Langkah-Langkah
+                    </button>
+                </div>
+
+                <!-- 3. PUKULAN LOB (CLEAR) -->
+                <div class="bg-white rounded-3xl p-6 shadow-md hover:shadow-lg border-2 border-slate-200 flex flex-col justify-between transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-sport-500 text-white font-bold px-3 py-1 rounded-xl text-xs font-heading">Teknik 3</span>
+                            <button onclick="speakText('Teknik Pukulan Lob atau Clear. Memukul shuttlecock tinggi melambung jauh ke garis belakang area permainan lawan untuk bertahan maupun mengatur serangan.')" class="p-2 bg-sport-50 text-sport-600 hover:bg-sport-100 rounded-lg text-xs font-bold transition">
+                                <i class="fa-solid fa-volume-high"></i> Suara
+                            </button>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-2 font-heading">3. Pukulan Lob (Clear)</h3>
+                        <p class="text-slate-600 text-sm mb-4">Memukul kok melambung tinggi ke arah garis belakang lawan.</p>
+
+                        <!-- SVG Illustration Lob -->
+                        <div class="bg-slate-100 rounded-2xl p-4 flex items-center justify-center mb-4">
+                            <svg viewBox="0 0 160 100" class="w-36 h-24">
+                                <line x1="80" y1="40" x2="80" y2="90" stroke="#0F172A" stroke-width="3"/>
+                                <!-- High Lob Trajectory -->
+                                <path d="M 25 70 Q 80 10 140 75" fill="none" stroke="#0284C7" stroke-width="3" stroke-dasharray="4 4"/>
+                                <circle cx="80" cy="22" r="6" fill="#FF6B00"/>
+                            </svg>
+                        </div>
+
+                        <ul class="space-y-1.5 text-xs text-slate-700 font-medium">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sport-500"></i> <strong>Deep Lob:</strong> Memukul kuat agar lawan terdesak ke belakang.</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sport-500"></i> Lakukan pukulan di atas kepala (*Overhead*) dengan ayunan penuh.</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sport-500"></i> Membuka ruang kosong di bagian depan lapangan lawan.</li>
+                        </ul>
+                    </div>
+                    <button onclick="openModal('lob')" class="mt-5 w-full bg-slate-100 hover:bg-sport-500 hover:text-white text-slate-800 font-bold py-2.5 rounded-xl transition text-xs flex items-center justify-center gap-2 font-heading">
+                        <i class="fa-solid fa-list-check"></i> Detail Langkah-Langkah
+                    </button>
+                </div>
+
+                <!-- 4. SMASH -->
+                <div class="bg-white rounded-3xl p-6 shadow-md hover:shadow-lg border-2 border-slate-200 flex flex-col justify-between transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-sport-500 text-white font-bold px-3 py-1 rounded-xl text-xs font-heading">Teknik 4</span>
+                            <button onclick="speakText('Teknik Pukulan Smash. Pukulan menukik tajam dan sangat keras ke arah lapangan lawan untuk mematikan lawan dan mencetak poin secara cepat.')" class="p-2 bg-sport-50 text-sport-600 hover:bg-sport-100 rounded-lg text-xs font-bold transition">
+                                <i class="fa-solid fa-volume-high"></i> Suara
+                            </button>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-2 font-heading">4. Pukulan Smash</h3>
+                        <p class="text-slate-600 text-sm mb-4">Pukulan keras dan menukik tajam untuk mencetak poin kemenangan.</p>
+
+                        <!-- SVG Illustration Smash -->
+                        <div class="bg-slate-100 rounded-2xl p-4 flex items-center justify-center mb-4">
+                            <svg viewBox="0 0 160 100" class="w-36 h-24">
+                                <line x1="100" y1="45" x2="100" y2="90" stroke="#0F172A" stroke-width="3"/>
+                                <!-- Player Jumping -->
+                                <circle cx="35" cy="25" r="7" fill="#FF6B00"/>
+                                <line x1="35" y1="32" x2="35" y2="55" stroke="#FF6B00" stroke-width="3"/>
+                                <!-- Sharp Downward Line -->
+                                <line x1="45" y1="30" x2="135" y2="80" stroke="#EF4444" stroke-width="4"/>
+                                <circle cx="105" cy="63" r="6" fill="#FF6B00"/>
+                            </svg>
+                        </div>
+
+                        <ul class="space-y-1.5 text-xs text-slate-700 font-medium">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sport-500"></i> Pukul kok pada titik tertinggi loncatan untuk sudut tajam.</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sport-500"></i> Manfaatkan kekuatan lecutan pergelangan tangan (*wrist snap*).</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sport-500"></i> Arahkan kok ke celah area lawan yang sulit dijangkau.</li>
+                        </ul>
+                    </div>
+                    <button onclick="openModal('smash')" class="mt-5 w-full bg-slate-100 hover:bg-sport-500 hover:text-white text-slate-800 font-bold py-2.5 rounded-xl transition text-xs flex items-center justify-center gap-2 font-heading">
+                        <i class="fa-solid fa-list-check"></i> Detail Langkah-Langkah
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. KUIS INTERAKTIF -->
+        <section id="kuis" class="bg-gradient-to-br from-slate-950 via-slate-900 to-electric-700 text-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-sport-500 relative overflow-hidden">
+            <div class="text-center max-w-xl mx-auto mb-8">
+                <span class="bg-yellow-400 text-slate-950 px-4 py-1 rounded-full text-xs font-black uppercase tracking-wider inline-block font-heading">
+                    🏆 Uji Pemahaman Siswa
+                </span>
+                <h2 class="text-3xl font-black text-white mt-2 font-heading">KUIS BULUTANGKIS SERU</h2>
+                <p class="text-slate-300 text-sm">Jawab 5 soal di bawah ini dan dapatkan skor tertinggi!</p>
+            </div>
+
+            <!-- Quiz Main View -->
+            <div id="quiz-container" class="bg-white text-slate-800 rounded-2xl p-6 md:p-8 shadow-2xl max-w-2xl mx-auto">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-200">
+                    <span id="question-number" class="font-heading font-bold text-sport-600 bg-sport-50 px-3 py-1 rounded-xl text-xs">Pertanyaan 1 dari 5</span>
+                    <div class="flex items-center gap-1 text-yellow-500 font-bold text-sm" id="star-display">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="mb-6 flex items-start justify-between gap-3">
+                    <h3 id="question-text" class="text-base md:text-lg font-bold text-slate-900 leading-snug">Memuat Pertanyaan...</h3>
+                    <button onclick="readCurrentQuestion()" class="p-2 bg-slate-100 hover:bg-slate-200 text-sport-600 rounded-lg text-xs font-bold transition flex-shrink-0" title="Bacakan Soal">
+                        <i class="fa-solid fa-volume-high"></i>
+                    </button>
+                </div>
+
+                <div id="options-container" class="grid grid-cols-1 gap-3">
+                    <!-- Options injected via JS -->
+                </div>
+
+                <div id="feedback-box" class="hidden mt-4 p-4 rounded-xl text-center font-bold text-xs md:text-sm"></div>
+
+                <div class="mt-6 flex justify-end">
+                    <button id="next-btn" onclick="nextQuestion()" class="hidden bg-sport-500 hover:bg-sport-600 text-white font-bold px-6 py-2.5 rounded-xl transition text-xs flex items-center gap-2 shadow font-heading">
+                        Pertanyaan Selanjutnya <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Result View -->
+            <div id="result-container" class="hidden bg-white text-slate-800 rounded-2xl p-8 text-center shadow-2xl max-w-lg mx-auto">
+                <div class="w-20 h-20 bg-yellow-100 text-yellow-500 rounded-full flex items-center justify-center mx-auto text-4xl mb-4 shadow-inner">
+                    <i id="result-icon" class="fa-solid fa-trophy"></i>
+                </div>
+                <h3 class="text-2xl font-black text-slate-900 mb-1 font-heading">KUIS SELESAI!</h3>
+                <p class="text-xs text-slate-500 mb-2">Nilai Akhir Kamu:</p>
+                <div class="text-5xl font-black text-sport-500 mb-4 font-heading" id="final-score">100</div>
+                <p id="result-message" class="text-slate-600 text-sm font-semibold mb-6">Hebat sekali! Kamu menguasai teknik bulutangkis dengan sangat baik!</p>
+                <button onclick="resetQuiz()" class="bg-sport-500 hover:bg-sport-600 text-white font-extrabold px-8 py-3 rounded-2xl shadow-lg transition transform hover:-translate-y-1 inline-flex items-center gap-2 text-sm font-heading">
+                    <i class="fa-solid fa-rotate-right"></i> Ulangi Kuis
+                </button>
+            </div>
+        </section>
+
+        <!-- 5. PROFIL PEMBUAT LENGKAP -->
+        <section id="pembuat" class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-electric-500 relative overflow-hidden">
+            <div class="flex flex-col md:flex-row items-center gap-6 relative z-10">
+                <div class="w-28 h-28 md:w-36 md:h-36 bg-gradient-to-br from-sport-500 to-electric-600 text-white rounded-3xl flex items-center justify-center text-6xl shadow-lg border-4 border-slate-100 flex-shrink-0">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+                <div class="text-center md:text-left flex-grow">
+                    <span class="bg-electric-500 text-white px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider inline-block mb-2 font-heading">
+                        Pengembang Media Pembelajaran
+                    </span>
+                    <h3 class="text-2xl md:text-3xl font-black text-slate-900 font-heading">Fondi Zufar Saviola</h3>
+                    <p class="text-sport-600 font-bold text-base md:text-lg mt-0.5 font-heading">
+                        NPM: <span class="text-slate-900 tracking-wider">41182191240031</span>
+                    </p>
+                    <p class="text-slate-700 text-xs md:text-sm font-semibold mt-1">
+                        Institusi: <span class="text-electric-600 font-bold">Universitas Muhammadiyah Indonesia</span>
+                    </p>
+                    <p class="text-slate-500 text-xs md:text-sm mt-3 leading-relaxed">
+                        Media pembelajaran interaktif berdesain olahraga profesional ini dirancang khusus untuk mempermudah siswa memahami materi teknik dasar Bulutangkis (Badminton) secara visual, audio narasi, dan simulasi lintasan 2D.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 text-slate-400 py-6 border-t-4 border-sport-500 mt-auto">
+        <div class="max-w-5xl mx-auto px-4 text-center text-xs md:text-sm space-y-1">
+            <p class="font-semibold text-slate-200">© 2026 PJOK - Media Pembelajaran Teknik Dasar Bulutangkis</p>
+            <p class="text-slate-400">
+                Dibuat oleh: <span class="text-sport-500 font-bold">Fondi Zufar Saviola</span> | NPM: <span class="text-yellow-400 font-bold">41182191240031</span> | <span class="text-white font-semibold">Universitas Muhammadiyah Indonesia</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- MODAL LANGKAH TEKNIK -->
+    <div id="detail-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 relative shadow-2xl border-4 border-sport-500">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-2xl font-bold w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100">
+                &times;
+            </button>
+            <div id="modal-content" class="space-y-4">
+                <!-- Injected via JS -->
+            </div>
+            <button onclick="closeModal()" class="mt-6 w-full bg-sport-500 text-white font-bold py-2.5 rounded-xl hover:bg-sport-600 transition text-xs font-heading">
+                Saya Sudah Paham
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- 1. Mobile Menu ---
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
+
+        // --- 2. Hero Shuttlecock Spin ---
+        function spinShuttlecock() {
+            const svg = document.getElementById('hero-shuttle-svg');
+            svg.style.transform = 'rotate(360deg) scale(1.1)';
+            setTimeout(() => {
+                svg.style.transform = 'rotate(0deg) scale(1.0)';
+            }, 700);
+        }
+
+        // --- 3. Text to Speech (Audio Reader) ---
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'id-ID';
+                utterance.rate = 0.95;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // --- 4. Web Audio API Synth Sound Effects ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playSoundEffect(isCorrect) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (isCorrect) {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+                osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2); // G5
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                osc.start(audioCtx.currentTime);
+                osc.stop(audioCtx.currentTime + 0.4);
+            } else {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(140, audioCtx.currentTime + 0.15);
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+                osc.start(audioCtx.currentTime);
+                osc.stop(audioCtx.currentTime + 0.35);
+            }
+        }
+
+        // --- 5. Badminton Canvas Simulator ---
+        const canvas = document.getElementById('badmintonCanvas');
+        const ctx = canvas.getContext('2d');
+        let currentMotion = 'servis';
+        let isAiPlaying = true;
+        let time = 0;
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const motionDetails = {
+            servis: { title: "Teknik Servis Pendek & Panjang", desc: "Pukulan sajian awal permainan melintasi net secara melambung atau tipis." },
+            lob: { title: "Teknik Pukulan Lob (Clear)", desc: "Memukul kok melambung tinggi jauh mengarah ke garis belakang lawan." },
+            dropshot: { title: "Teknik Drop Shot", desc: "Pukulan seperti smash namun kok jatuh tipis menyeberangi depan net." },
+            smash: { title: "Teknik Smash Menukik", desc: "Pukulan smash keras tajam ke arah lapangan lawan untuk mematikan rali." }
+        };
+
+        function setBadmintonMotion(key) {
+            currentMotion = key;
+            time = 0;
+            document.querySelectorAll('.motion-tab-btn').forEach(btn => {
+                btn.className = "motion-tab-btn bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1 font-heading";
+            });
+            document.getElementById(`btn-motion-${key}`).className = "motion-tab-btn bg-sport-500 text-white font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1 shadow font-heading";
+
+            document.getElementById('motion-title').textContent = motionDetails[key].title;
+            document.getElementById('motion-desc').textContent = motionDetails[key].desc;
+        }
+
+        function toggleBadmintonAnim() {
+            isAiPlaying = !isAiPlaying;
+            document.getElementById('anim-play-btn').innerHTML = isAiPlaying ? 
+                '<i class="fa-solid fa-pause"></i> Pause' : '<i class="fa-solid fa-play"></i> Putar';
+        }
+
+        function drawShuttlecock(x, y, scale = 1) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(x, y, 6 * scale, 0, Math.PI * 2);
+            ctx.fillStyle = "#FF6B00";
+            ctx.fill();
+            ctx.strokeStyle = "#FFFFFF";
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Feather Trail
+            ctx.beginPath();
+            ctx.moveTo(x - 5, y - 4);
+            ctx.lineTo(x - 14, y - 10);
+            ctx.lineTo(x - 10, y + 4);
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function renderSimulation() {
+            if (isAiPlaying) time += 0.04;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const w = canvas.width;
+            const h = canvas.height;
+            const courtY = h - 35;
+            const netX = w * 0.5;
+
+            // Draw Badminton Court Floor
+            ctx.fillStyle = "#075985";
+            ctx.fillRect(0, courtY, w, 35);
+            ctx.fillStyle = "#38BDF8";
+            ctx.fillRect(0, courtY, w, 4);
+
+            // Draw Net
+            ctx.strokeStyle = "#FFFFFF";
+            ctx.lineWidth = 4;
+            ctx.beginPath(); ctx.moveTo(netX, courtY); ctx.lineTo(netX, courtY - 75); ctx.stroke();
+            ctx.fillStyle = "#FF6B00";
+            ctx.fillRect(netX - 3, courtY - 80, 6, 8);
+
+            // Player Figures
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = "#FFFFFF";
+            ctx.fillStyle = "#FFFFFF";
+
+            if (currentMotion === 'servis') {
+                const p1X = w * 0.25;
+                const bodyY = courtY - 70;
+
+                // Player 1 Serving
+                ctx.beginPath(); ctx.arc(p1X, bodyY, 12, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.moveTo(p1X, bodyY + 12); ctx.lineTo(p1X, courtY - 30); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(p1X, courtY - 30); ctx.lineTo(p1X - 12, courtY); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(p1X, courtY - 30); ctx.lineTo(p1X + 12, courtY); ctx.stroke();
+
+                // Shuttlecock Arc
+                let progress = (Math.sin(time * 3) + 1) / 2;
+                let cockX = p1X + 15 + (progress * (w * 0.45));
+                let cockY = bodyY + 10 - Math.sin(progress * Math.PI) * 45;
+
+                drawShuttlecock(cockX, cockY);
+
+            } else if (currentMotion === 'lob') {
+                const p1X = w * 0.2;
+                const bodyY = courtY - 70;
+
+                ctx.beginPath(); ctx.arc(p1X, bodyY, 12, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.moveTo(p1X, bodyY + 12); ctx.lineTo(p1X, courtY - 30); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(p1X, courtY - 30); ctx.lineTo(p1X - 12, courtY); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(p1X, courtY - 30); ctx.lineTo(p1X + 12, courtY); ctx.stroke();
+
+                // High Lob Arc
+                let progress = (Math.sin(time * 2.5) + 1) / 2;
+                let cockX = p1X + (progress * (w * 0.65));
+                let cockY = courtY - 40 - Math.sin(progress * Math.PI) * 110;
+
+                drawShuttlecock(cockX, cockY);
+
+            } else if (currentMotion === 'dropshot') {
+                const p1X = w * 0.25;
+                const bodyY = courtY - 70;
+
+                ctx.beginPath(); ctx.arc(p1X, bodyY, 12, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.moveTo(p1X, bodyY + 12); ctx.lineTo(p1X, courtY - 30); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(p1X, courtY - 30); ctx.lineTo(p1X - 12, courtY); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(p1X, courtY - 30); ctx.lineTo(p1X + 12, courtY); ctx.stroke();
+
+                // Drop shot trajectory
+                let progress = (Math.sin(time * 3.5) + 1) / 2;
+                let cockX = p1X + (progress * (netX - p1X + 40));
+                let cockY = bodyY - 30 + (progress * (courtY - bodyY + 20));
+
+                drawShuttlecock(cockX, cockY);
+
+            } else if (currentMotion === 'smash') {
+                let jumpY = Math.abs(Math.sin(time * 3)) * 40;
+                let p1X = w * 0.25;
+                let bodyY = courtY - 70 - jumpY;
+
+                ctx.beginPath(); ctx.arc(p1X, bodyY, 12, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.moveTo(p1X, bodyY + 12); ctx.lineTo(p1X, bodyY + 45); ctx.stroke();
+
+                // Steep Downward Smash Line
+                let progress = (Math.sin(time * 4) + 1) / 2;
+                let cockX = p1X + 20 + (progress * (w * 0.5));
+                let cockY = bodyY - 10 + (progress * (courtY - bodyY));
+
+                drawShuttlecock(cockX, cockY);
+            }
+
+            requestAnimationFrame(renderSimulation);
+        }
+
+        renderSimulation();
+
+        // --- 6. Modal Steps ---
+        const modalData = {
+            grip: {
+                title: "Langkah-Langkah Pegangan Raket (Grip)",
+                icon: "fa-hand-dots",
+                steps: [
+                    "Pegang raket secara rileks seperti posisi berjabat tangan biasa (Forehand).",
+                    "Bentuk V tepat berada di antara ibu jari dan jari telunjuk.",
+                    "Untuk <strong>Backhand Grip</strong>, putar raket sedikit lalu tekan ibu jari pada bagian pipih gagang raket.",
+                    "Hindari menggenggam terlalu kaku agar pergelangan tangan fleksibel melecut."
+                ]
+            },
+            servis: {
+                title: "Langkah-Langkah Servis Badminton",
+                icon: "fa-feather",
+                steps: [
+                    "Berdiri di dalam area servis, satu kaki berada di depan.",
+                    "Pegang kepala shuttlecock dengan jari-jari tangan kiri secara santai.",
+                    "Ayunkan raket dari belakang ke depan bawah pinggang.",
+                    "Pukul kok dengan lembut tipis di atas net (Servis Pendek) atau kuat melambung (Servis Panjang)."
+                ]
+            },
+            lob: {
+                title: "Langkah-Langkah Pukulan Lob (Clear)",
+                icon: "fa-arrow-up-right-dots",
+                steps: [
+                    "Bergerak cepat ke belakang di bawah arah jatuhnya shuttlecock.",
+                    "Angkat kedua tangan, posisi raket berada di belakang kepala.",
+                    "Pukul kok persis di atas puncak kepala dengan pergelangan tangan penuh.",
+                    "Arahkan kok melambung tinggi jauh ke garis paling belakang lapangan lawan."
+                ]
+            },
+            smash: {
+                title: "Langkah-Langkah Pukulan Smash Menukik",
+                icon: "fa-bolt-lightning",
+                steps: [
+                    "Ambil posisi bersiap dan lakukan awalan loncatan (*Jumping Smash*).",
+                    "Pukul kok pada titik tertinggi loncatan sebelum mulai turun.",
+                    "Lakukan lecutan pergelangan tangan (*wrist snap*) sekuat tenaga ke arah bawah.",
+                    "Arahkan kok menukik tajam ke celah area kosong lapangan lawan."
+                ]
+            }
+        };
+
+        function openModal(key) {
+            const data = modalData[key];
+            if (!data) return;
+            const content = document.getElementById('modal-content');
+            content.innerHTML = `
+                <div class="flex items-center gap-3 border-b pb-3">
+                    <i class="fa-solid ${data.icon} text-3xl text-sport-500"></i>
+                    <h3 class="text-xl font-bold text-slate-900 font-heading">${data.title}</h3>
+                </div>
+                <ul class="space-y-2 text-xs md:text-sm text-slate-700 pl-1">
+                    ${data.steps.map((step, i) => `
+                        <li class="flex items-start gap-2">
+                            <span class="bg-sport-500 text-white font-bold rounded-full w-5 h-5 flex items-center justify-center text-xs flex-shrink-0 mt-0.5">${i + 1}</span>
+                            <span>${step}</span>
+                        </li>
+                    `).join('')}
+                </ul>
+            `;
+            document.getElementById('detail-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('detail-modal').classList.add('hidden');
+        }
+
+        // --- 7. Quiz Logic ---
+        const questions = [
+            {
+                question: "Berapa jumlah poin kemenangan standard dalam satu set permainan bulutangkis (Rally Point)?",
+                options: ["11 Poin", "15 Poin", "21 Poin", "25 Poin"],
+                answer: 2,
+                explanation: "Sistem skor resmi bulutangkis menggunakan Rally Point 21 angka dalam setiap set."
+            },
+            {
+                question: "Teknik memegang raket seperti posisi berjabat tangan disebut...",
+                options: ["Backhand Grip", "Forehand Grip", "American Grip", "Combination Grip"],
+                answer: 1,
+                explanation: "Forehand Grip dilakukan dengan memegang gagang raket rileks seperti posisi jabat tangan."
+            },
+            {
+                question: "Pukulan yang bertujuan menerbangkan shuttlecock setinggi mungkin jauh ke belakang lawan disebut...",
+                options: ["Pukulan Lob (Clear)", "Pukulan Smash", "Drop Shot", "Netting"],
+                answer: 0,
+                explanation: "Pukulan Lob bertujuan menerbangkan kok melambung tinggi ke area belakang lawan."
+            },
+            {
+                question: "Pukulan keras dan menukik tajam langsung ke area lawan untuk mencetak poin cepat disebut...",
+                options: ["Servis", "Drop Shot", "Smash", "Drive"],
+                answer: 2,
+                explanation: "Smash adalah pukulan serangan utama yang keras dan menukik tajam ke bawah."
+            },
+            {
+                question: "Tinggi net standard pada lapangan olahraga bulutangkis di bagian tengah adalah...",
+                options: ["1.55 Meter", "2.00 Meter", "1.20 Meter", "1.80 Meter"],
+                answer: 0,
+                explanation: "Tinggi resmi net bulutangkis adalah 1.55 meter di tiang dan 1.524 meter di bagian tengah."
+            }
+        ];
+
+        let currentQ = 0;
+        let score = 0;
+        let answered = false;
+
+        function loadQuestion() {
+            answered = false;
+            const q = questions[currentQ];
+            document.getElementById('question-number').textContent = `Pertanyaan ${currentQ + 1} dari ${questions.length}`;
+            document.getElementById('question-text').textContent = q.question;
+
+            const opts = document.getElementById('options-container');
+            opts.innerHTML = '';
+            document.getElementById('feedback-box').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3.5 rounded-xl border-2 border-slate-200 hover:border-sport-500 hover:bg-sport-50 transition text-xs md:text-sm font-semibold text-slate-800 flex items-center justify-between group";
+                btn.innerHTML = `
+                    <span>${String.fromCharCode(65 + idx)}. ${opt}</span>
+                    <i class="fa-regular fa-circle text-slate-300 group-hover:text-sport-500"></i>
+                `;
+                btn.onclick = () => selectAnswer(idx, btn);
+                opts.appendChild(btn);
+            });
+        }
+
+        function readCurrentQuestion() {
+            const q = questions[currentQ];
+            speakText(`${q.question}. Jawaban A: ${q.options[0]}. B: ${q.options[1]}. C: ${q.options[2]}. D: ${q.options[3]}.`);
+        }
+
+        function selectAnswer(idx, btn) {
+            if (answered) return;
+            answered = true;
+
+            const q = questions[currentQ];
+            const feedback = document.getElementById('feedback-box');
+            const optionsBtns = document.getElementById('options-container').children;
+
+            if (idx === q.answer) {
+                score += 20;
+                playSoundEffect(true);
+                btn.className = "w-full text-left p-3.5 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 font-bold text-xs md:text-sm flex items-center justify-between";
+                btn.querySelector('i').className = "fa-solid fa-circle-check text-emerald-600 text-base";
+
+                feedback.className = "mt-4 p-4 rounded-xl text-center font-bold text-xs md:text-sm bg-emerald-100 text-emerald-900 border border-emerald-300";
+                feedback.innerHTML = `<i class="fa-solid fa-thumbs-up"></i> Jawaban Benar! ${q.explanation}`;
+            } else {
+                playSoundEffect(false);
+                btn.className = "w-full text-left p-3.5 rounded-xl border-2 border-rose-400 bg-rose-50 text-rose-900 font-bold text-xs md:text-sm flex items-center justify-between";
+                btn.querySelector('i').className = "fa-solid fa-circle-xmark text-rose-600 text-base";
+
+                optionsBtns[q.answer].className = "w-full text-left p-3.5 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 font-bold text-xs md:text-sm flex items-center justify-between";
+
+                feedback.className = "mt-4 p-4 rounded-xl text-center font-bold text-xs md:text-sm bg-rose-100 text-rose-900 border border-rose-300";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Kurang Tepat! Jawaban yang benar adalah ${q.options[q.answer]}. ${q.explanation}`;
+            }
+
+            feedback.classList.remove('hidden');
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.textContent = currentQ < questions.length - 1 ? "Pertanyaan Selanjutnya" : "Lihat Hasil Kuis";
+            nextBtn.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            if (currentQ < questions.length - 1) {
+                currentQ++;
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            const res = document.getElementById('result-container');
+            res.classList.remove('hidden');
+
+            document.getElementById('final-score').textContent = score;
+
+            if (score >= 80) {
+                document.getElementById('result-message').textContent = "Luar Biasa! Kamu menguasai teknik bulutangkis dengan sangat baik! 🏸⚡";
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            } else if (score >= 60) {
+                document.getElementById('result-message').textContent = "Bagus sekali! Teruskan latihanmu agar makin mahir!";
+            } else {
+                document.getElementById('result-message').textContent = "Jangan berkecil hati! Pelajari materi dan coba kuis lagi ya!";
+            }
+        }
+
+        function resetQuiz() {
+            currentQ = 0;
+            score = 0;
+            document.getElementById('result-container').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        window.onload = function() {
+            loadQuestion();
+        };
+    </script>
+</body>
+</html>
